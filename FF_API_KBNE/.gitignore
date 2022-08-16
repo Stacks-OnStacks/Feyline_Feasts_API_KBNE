@@ -7,3 +7,5 @@ out/
 .gitattributes
 target/
 src/main/resources/db.properties
+src/main/resources/hibernate.properties
+src/main/webapp/WEB-INF/hibernate.cfg.xml

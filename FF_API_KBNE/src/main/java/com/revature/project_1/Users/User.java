@@ -1,14 +1,26 @@
 package com.revature.project_1.Users;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Date;
-
+@Entity
+@Table(name = "users")
 public class User {
 
+
+@Id
     public String username;
+    @Column(name = "fname")
     public String fname;
+    @Column(name = "lname")
     public String lname;
+    @Column(name = "password")
     public String password;
+    @Column(name = "dob")
     public Date dob;
+    @Column(name = "is_admin")
     private boolean isAdmin;
 
     public User(String username, String fname, String lname, String password, Date dob, boolean isAdmin){
@@ -19,6 +31,10 @@ public class User {
         this.dob=dob;
         this.isAdmin=isAdmin;
     }
+
+    public User(){}
+
+
 
     public Date getDob() {
         return dob;
@@ -58,6 +74,14 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
     }
 
     @Override

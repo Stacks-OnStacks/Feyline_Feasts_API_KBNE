@@ -6,4 +6,4 @@ out/
 .idea
 .gitattributes
 target/
-src/main/resources/db.propertiess
+src/main/resources/db.properties

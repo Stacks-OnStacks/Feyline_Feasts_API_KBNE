@@ -5,12 +5,12 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Date;
-@Entity
+@Entity(name = "users")
 @Table(name = "users")
 public class User {
 
 
-@Id
+    @Id
     public String username;
     @Column(name = "fname")
     public String fname;

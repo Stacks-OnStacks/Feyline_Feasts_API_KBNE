@@ -38,7 +38,7 @@ public class UserDao implements Crudable<User> {
         try {
             Session session = HibernateUtil.getSession();
             Transaction transaction = session.beginTransaction();
-            List<User> users = session.createQuery("FROM users").list();
+            List<User> users = session.createQuery("from users").list();
             transaction.commit();
             return users;
         } catch (HibernateException | IOException e) {
@@ -101,7 +101,7 @@ public class UserDao implements Crudable<User> {
     public User loginCredCheck(String username, String password) {try {
         Session session = HibernateUtil.getSession();
         Transaction transaction = session.beginTransaction();
-        Query query = session.createQuery("from users where email= :email and password= :password");
+        Query query = session.createQuery("from users where username = :username and password= :password");
         query.setParameter("username", username);
         query.setParameter("password", password);
         User user = (User) query.uniqueResult();

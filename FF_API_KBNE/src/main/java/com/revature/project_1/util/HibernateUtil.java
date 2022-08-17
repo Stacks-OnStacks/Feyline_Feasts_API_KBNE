@@ -22,12 +22,15 @@ public class HibernateUtil {
 
     public static Session getSession() throws IOException {
         if(sessionFactory == null) {
+
+            //Configuration configuration = new Configuration().configure("hibernate.cfg.xml");
+
             Configuration configuration = new Configuration();
             Properties properties = new Properties();
 
             properties.load(new FileReader("src/main/resources/hibernate.properties"));
 
-            // ONE ADDITIONAL STEP I NEED TO INCLUDE
+
             //configuration.addAnnotatedClass(Dish.class);
             //configuration.addAnnotatedClass(OrderDetails.class);
             //configuration.addAnnotatedClass(Order.class);

@@ -1,5 +1,8 @@
 package com.revature.project_1.Users_Payment;
 
+import javax.persistence.Entity;
+
+@Entity
 public class UserPayment {
 
     public String paymentId;

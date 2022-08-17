@@ -89,6 +89,7 @@ public class UserServlet extends HttpServlet implements Authable {
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         EditUserRequests editUser= objectMapper.readValue(req.getInputStream(),EditUserRequests.class);
 
+
         try {
             userService.update(editUser);
             resp.getWriter().write("User update successful");
@@ -104,13 +105,14 @@ public class UserServlet extends HttpServlet implements Authable {
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if(!checkAuth(req, resp)) return;
-        String username = req.getParameter("username");
+        EditUserRequests editUser= objectMapper.readValue(req.getInputStream(),EditUserRequests.class);
+        String username = editUser.getId();
         System.out.println(username);
         if(username != null){
             userService.remove(username);
             resp.getWriter().write("User with " + username + " has been deleted");
         } else {
-            resp.getWriter().write("This request requires an username parameter in the path ?email=username");
+            resp.getWriter().write("This request requires an username parameter in the path ?username=username");
             resp.setStatus(400);
         }
     }

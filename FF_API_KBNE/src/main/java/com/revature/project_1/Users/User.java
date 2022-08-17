@@ -86,6 +86,13 @@ public class User {
 
     @Override
     public String toString() {
-        return super.toString();
+        return "User{" +
+                "username='" + username + '\'' +
+                ", fname='" + fname + '\'' +
+                ", lname='" + lname + '\'' +
+                ", password='" + password + '\'' +
+                ", dob=" + dob +
+                ", isAdmin=" + isAdmin +
+                '}';
     }
 }

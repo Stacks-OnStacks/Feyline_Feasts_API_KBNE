@@ -40,7 +40,7 @@ public class EditUserRequests extends EditResourceRequest {
         @Override
         public String toString() {
                 return "EditUserRequests{" +
-                        "username='" + username + '\'' +
+                        "username='" + super.id + '\'' +
                         ", fname='" + fname + '\'' +
                         ", lname='" + lname + '\'' +
                         ", password='" + password + '\'' +

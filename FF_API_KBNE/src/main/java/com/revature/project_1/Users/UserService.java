@@ -88,8 +88,8 @@ public class UserService {
 
     public boolean update(EditUserRequests editUser) {
         User foundUser= userDao.findById(editUser.getId());
-
-        Predicate<String> notNullorEmt= (str) -> str !=null&& str.trim().equals("");
+        System.out.println(editUser.toString());
+        Predicate<String> notNullorEmt= (str) -> str !=null && !str.trim().equals("");
 
         if (notNullorEmt.test(editUser.getFname())){
             foundUser.setFname(editUser.getFname());
@@ -100,6 +100,7 @@ public class UserService {
         if (notNullorEmt.test(editUser.getPassword())){
             foundUser.setPassword(editUser.getPassword());
         }
+        System.out.println(foundUser.toString());
         return userDao.update(foundUser);
 
     }

@@ -2,15 +2,35 @@ package com.revature.project_1.Users.DTO.requests;
 
 import java.util.Date;
 
-public class NewRegistrationRequest extends EditUserRequests{
+public class NewRegistrationRequest{
 
 
-    public String username=super.id;
+    public String username;
     public String fname;
     public String lname;
     public String password;
-
     public Date dob;
+    private boolean isAdmin;
+
+
+    public NewRegistrationRequest(){}
+    public NewRegistrationRequest(String username, String fname, String lname, String password, Date dob) {
+
+        this.fname = fname;
+        this.lname = lname;
+        this.password = password;
+        this.dob = dob;
+        this.isAdmin=false;
+    }
+
+    public NewRegistrationRequest(String username, String fname, String lname, String password, Date dob, boolean isAdmin) {
+
+        this.fname = fname;
+        this.lname = lname;
+        this.password = password;
+        this.dob = dob;
+        this.isAdmin = isAdmin;
+    }
 
     public Date getDob() {
         return dob;
@@ -20,9 +40,6 @@ public class NewRegistrationRequest extends EditUserRequests{
         this.dob = dob;
     }
 
-    private boolean isAdmin;
-
-
     public String getUsername() {
         return username;
     }
@@ -31,32 +48,32 @@ public class NewRegistrationRequest extends EditUserRequests{
         this.username = username;
     }
 
-    @Override
+
     public String getFname() {
         return fname;
     }
 
-    @Override
+
     public void setFname(String fname) {
         this.fname = fname;
     }
 
-    @Override
+
     public String getLname() {
         return lname;
     }
 
-    @Override
+
     public void setLname(String lname) {
         this.lname = lname;
     }
 
-    @Override
+
     public String getPassword() {
         return password;
     }
 
-    @Override
+
     public void setPassword(String password) {
         this.password = password;
     }
@@ -67,5 +84,17 @@ public class NewRegistrationRequest extends EditUserRequests{
 
     public void setAdmin(boolean admin) {
         isAdmin = admin;
+    }
+
+    @Override
+    public String toString() {
+        return "NewRegistrationRequest{" +
+                "username='" + username + '\'' +
+                ", fname='" + fname + '\'' +
+                ", lname='" + lname + '\'' +
+                ", password='" + password + '\'' +
+                ", dob=" + dob +
+                ", isAdmin=" + isAdmin +
+                '}';
     }
 }

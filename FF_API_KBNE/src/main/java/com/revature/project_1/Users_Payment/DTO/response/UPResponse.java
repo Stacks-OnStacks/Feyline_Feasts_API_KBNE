@@ -1,35 +1,24 @@
-package com.revature.project_1.Users_Payment;
+package com.revature.project_1.Users_Payment.DTO.response;
 
 import com.revature.project_1.Users.User;
-import com.revature.project_1.Users_Payment.DTO.requests.EditUPRequests;
+import com.revature.project_1.Users_Payment.UserPayment;
 
-import javax.persistence.*;
 
-@Entity(name = "UserPayments")
-@Table(name = "UserPayments")
-public class UserPayment {
+public class UPResponse {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "payment_id")
     public int paymentId;
-    @Column(name = "balance")
     public double balance;
-    @Column(name = "expDate")
     public String expDate;
-    @Column(name = "ccv")
     public int ccv;
-    @Column(name = "zipCode")
     public int zipCode;
-
-    @ManyToOne
-    @JoinColumn(name = "username")
     public User customerUsername;
 
 
-    public UserPayment(){}
+    public UPResponse() {
+    }
 
-    public UserPayment( double balance, String expDate, int ccv, int zipCode, User customerUsername) {
+    public UPResponse(int paymentId, double balance, String expDate, int ccv, int zipCode, User customerUsername) {
+        this.paymentId = paymentId;
         this.balance = balance;
         this.expDate = expDate;
         this.ccv = ccv;
@@ -37,12 +26,14 @@ public class UserPayment {
         this.customerUsername = customerUsername;
     }
 
-    public UserPayment(EditUPRequests userPay) {
-        this.balance = balance;
-        this.expDate = expDate;
-        this.ccv = ccv;
-        this.zipCode = zipCode;
-        this.customerUsername = customerUsername;
+    public UPResponse(UserPayment userPay) {
+        this.paymentId = userPay.paymentId;
+        this.balance = userPay.balance;
+        this.expDate = userPay.expDate;
+        this.ccv = userPay.ccv;
+        this.zipCode = userPay.zipCode;
+        this.customerUsername = userPay.customerUsername;
+
     }
 
     public int getPaymentId() {
@@ -91,5 +82,17 @@ public class UserPayment {
 
     public void setCustomerUsername(User customerUsername) {
         this.customerUsername = customerUsername;
+    }
+
+    @Override
+    public String toString() {
+        return "UPResponse{" +
+                "paymentId='" + paymentId + '\'' +
+                ", balance=" + balance +
+                ", expDate='" + expDate + '\'' +
+                ", ccv=" + ccv +
+                ", zipCode=" + zipCode +
+                ", customerUsername=" + customerUsername +
+                '}';
     }
 }

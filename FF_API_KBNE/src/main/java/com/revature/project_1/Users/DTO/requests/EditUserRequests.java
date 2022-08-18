@@ -4,46 +4,50 @@ import com.revature.project_1.util.web.DTO.EditResourceRequest;
 
 public class EditUserRequests extends EditResourceRequest {
 
-        private String username = super.id;
-        private String fname;
-        private String lname;
-        private String password;
+    private String username = super.id;
+    private String fname;
+    private String lname;
+    private String password;
 
 
-        public EditUserRequests(){super();}
-
-
-        public String getFname() {
-                return fname;
+    public EditUserRequests(){
+        System.out.println("************");
+        System.out.println(super.id);
+        System.out.println("************");
         }
 
-        public void setFname(String fname) {
-                this.fname = fname;
-        }
 
-        public String getLname() {
-                return lname;
-        }
+    public String getFname() {
+        return fname;
+    }
 
-        public void setLname(String lname) {
-                this.lname = lname;
-        }
+    public void setFname(String fname) {
+        this.fname = fname;
+    }
 
-        public String getPassword() {
-                return password;
-        }
+    public String getLname() {
+        return lname;
+    }
 
-        public void setPassword(String password) {
-                this.password = password;
-        }
+    public void setLname(String lname) {
+        this.lname = lname;
+    }
 
-        @Override
-        public String toString() {
-                return "EditUserRequests{" +
-                        "username='" + super.id + '\'' +
-                        ", fname='" + fname + '\'' +
-                        ", lname='" + lname + '\'' +
-                        ", password='" + password + '\'' +
-                        '}';
-        }
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        return "EditUserRequests{" +
+                "username='" + super.id + '\'' +
+                ", fname='" + fname + '\'' +
+                ", lname='" + lname + '\'' +
+                ", password='" + password + '\'' +
+                '}';
+    }
 }

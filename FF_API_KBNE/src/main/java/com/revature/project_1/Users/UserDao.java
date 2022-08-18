@@ -1,13 +1,11 @@
 package com.revature.project_1.Users;
 
-
 import com.revature.project_1.util.HibernateUtil;
 import com.revature.project_1.util.interfaces.Crudable;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
-
 
 import java.io.IOException;
 import java.util.List;
@@ -98,21 +96,22 @@ public class UserDao implements Crudable<User> {
         }
     }
 
-    public User loginCredCheck(String username, String password) {try {
-        Session session = HibernateUtil.getSession();
-        Transaction transaction = session.beginTransaction();
-        Query query = session.createQuery("from users where username = :username and password= :password");
-        query.setParameter("username", username);
-        query.setParameter("password", password);
-        User user = (User) query.uniqueResult();
-        transaction.commit();
-        return user;
-    } catch (HibernateException | IOException e) {
-        e.printStackTrace();
-        return null;
-    } finally {
-        HibernateUtil.closeSession();
-    }
+    public User loginCredCheck(String username, String password) {
+        try {
+            Session session = HibernateUtil.getSession();
+            Transaction transaction = session.beginTransaction();
+            Query query = session.createQuery("from users where username = :username and password= :password");
+            query.setParameter("username", username);
+            query.setParameter("password", password);
+            User user = (User) query.uniqueResult();
+            transaction.commit();
+            return user;
+        } catch (HibernateException | IOException e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            HibernateUtil.closeSession();
+        }
     }
 
     public boolean isUsernameAvailable(String username) {
@@ -132,8 +131,4 @@ public class UserDao implements Crudable<User> {
             HibernateUtil.closeSession();
         }
     }
-
-
-
-
 }

@@ -34,7 +34,6 @@ public class UserServlet extends HttpServlet implements Authable {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         String username= req.getParameter("username");
-        User authUser= (User) req.getSession().getAttribute("authUser");
 
         if(username!=null){
             try{

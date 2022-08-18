@@ -35,7 +35,7 @@ public class HibernateUtil {
             //configuration.addAnnotatedClass(OrderDetails.class);
             //configuration.addAnnotatedClass(Order.class);
             configuration.addAnnotatedClass(User.class);
-            //configuration.addAnnotatedClass(UserPayment.class);
+            configuration.addAnnotatedClass(UserPayment.class);
 
             // ServiceRegistry
             ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()

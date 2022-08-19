@@ -2,7 +2,7 @@ package com.revature.project_1.Users.DTO.requests;
 
 import com.revature.project_1.util.web.DTO.EditResourceRequest;
 
-public class EditUserRequests extends EditResourceRequest {
+public class EditUserRequest extends EditResourceRequest {
 
     private String username = super.id;
     private String fname;
@@ -10,11 +10,7 @@ public class EditUserRequests extends EditResourceRequest {
     private String password;
 
 
-    public EditUserRequests(){
-        System.out.println("************");
-        System.out.println(super.id);
-        System.out.println("************");
-        }
+    public EditUserRequest(){}
 
 
     public String getFname() {

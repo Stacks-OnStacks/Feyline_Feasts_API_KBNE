@@ -3,11 +3,7 @@ package com.revature.project_1.Users_Payment.DTO.requests;
 import com.revature.project_1.Users.User;
 import com.revature.project_1.util.web.DTO.EditResourceRequest;
 
-import javax.persistence.Column;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-
-public class EditUPRequests extends EditResourceRequest {
+public class EditUPRequest extends EditResourceRequest {
 
     public String paymentId=super.getId();
     public double balance;
@@ -16,7 +12,7 @@ public class EditUPRequests extends EditResourceRequest {
     public int zipCode;
     public User customerUsername;
 
-    public EditUPRequests()
+    public EditUPRequest()
     {
         super();
 

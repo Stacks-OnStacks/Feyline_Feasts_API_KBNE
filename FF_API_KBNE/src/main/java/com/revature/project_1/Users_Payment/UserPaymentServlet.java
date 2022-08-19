@@ -2,7 +2,7 @@ package com.revature.project_1.Users_Payment;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.project_1.Users.User;
-import com.revature.project_1.Users_Payment.DTO.requests.EditUPRequests;
+import com.revature.project_1.Users_Payment.DTO.requests.EditUPRequest;
 import com.revature.project_1.Users_Payment.DTO.requests.NewUPRequest;
 import com.revature.project_1.Users_Payment.DTO.response.UPResponse;
 import com.revature.project_1.util.exceptions.InvalidUserInputException;
@@ -15,12 +15,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class UserPaymentServlet extends HttpServlet implements Authable {
 
@@ -68,7 +65,6 @@ public class UserPaymentServlet extends HttpServlet implements Authable {
         NewUPRequest userPay = objectMapper.readValue(req.getInputStream(), NewUPRequest.class);
         User authUser= (User) req.getSession().getAttribute("authUser");
         userPay.setCustomerUsername(authUser);
-        System.out.println(userPay);
         try{
             logger.info("Payment request to add the following to the database: {}", userPay);
             UPResponse newUserPay = uPService.registerUserPayment(userPay);
@@ -94,7 +90,7 @@ public class UserPaymentServlet extends HttpServlet implements Authable {
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         if(!checkAuth(req, resp)) return;
-        EditUPRequests userPay = objectMapper.readValue(req.getInputStream(), EditUPRequests.class);
+        EditUPRequest userPay = objectMapper.readValue(req.getInputStream(), EditUPRequest.class);
 
         try {
             uPService.update(userPay);
@@ -117,7 +113,7 @@ public class UserPaymentServlet extends HttpServlet implements Authable {
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if(!checkAuth(req, resp)) return;
-        EditUPRequests editUser= objectMapper.readValue(req.getInputStream(),EditUPRequests.class);
+        EditUPRequest editUser= objectMapper.readValue(req.getInputStream(), EditUPRequest.class);
 
         String userPay = editUser.getId();
         System.out.println(editUser.getId());

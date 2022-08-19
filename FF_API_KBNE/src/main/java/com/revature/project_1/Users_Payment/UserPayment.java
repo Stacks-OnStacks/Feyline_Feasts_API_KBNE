@@ -1,7 +1,7 @@
 package com.revature.project_1.Users_Payment;
 
 import com.revature.project_1.Users.User;
-import com.revature.project_1.Users_Payment.DTO.requests.EditUPRequests;
+import com.revature.project_1.Users_Payment.DTO.requests.EditUPRequest;
 
 import javax.persistence.*;
 
@@ -37,7 +37,7 @@ public class UserPayment {
         this.customerUsername = customerUsername;
     }
 
-    public UserPayment(EditUPRequests userPay) {
+    public UserPayment(EditUPRequest userPay) {
         this.balance = balance;
         this.expDate = expDate;
         this.ccv = ccv;

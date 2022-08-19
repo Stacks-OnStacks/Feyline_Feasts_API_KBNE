@@ -1,7 +1,7 @@
 package com.revature.project_1.Users;
 
-import com.revature.project_1.Users.DTO.requests.EditUserRequests;
-import com.revature.project_1.Users.DTO.requests.NewRegistrationRequest;
+import com.revature.project_1.Users.DTO.requests.EditUserRequest;
+import com.revature.project_1.Users.DTO.requests.NewUserRequest;
 import com.revature.project_1.Users.DTO.response.UserResponse;
 import com.revature.project_1.util.exceptions.InvalidUserInputException;
 import com.revature.project_1.util.exceptions.ResourcePersistanceException;
@@ -47,7 +47,7 @@ public class UserService {
         return users;
     }
 
-    public UserResponse registerUser(NewRegistrationRequest newRegistration) {
+    public UserResponse registerUser(NewUserRequest newRegistration) {
         User newUser= new User();
 
 
@@ -86,7 +86,7 @@ public class UserService {
         return true;
     }
 
-    public boolean update(EditUserRequests editUser) {
+    public boolean update(EditUserRequest editUser) {
         User foundUser= userDao.findById(editUser.getId());
         System.out.println(editUser.toString());
         Predicate<String> notNullorEmt= (str) -> str !=null && !str.trim().equals("");

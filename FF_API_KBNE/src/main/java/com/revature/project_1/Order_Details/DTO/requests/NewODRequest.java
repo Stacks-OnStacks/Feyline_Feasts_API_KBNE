@@ -1,49 +1,25 @@
-package com.revature.project_1.Order_Details;
+package com.revature.project_1.Order_Details.DTO.requests;
 
 import com.revature.project_1.Dish.Dish;
-import com.revature.project_1.Order_Details.DTO.requests.EditODRequest;
 import com.revature.project_1.Orders.Order;
 
-import javax.persistence.*;
+public class NewODRequest {
 
-@Entity
-@Table(name="order_details")
-public class OrderDetails {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "order_detail_id")
     public int orderDetailId;
-
-    @ManyToOne
-    @JoinColumn(name = "dish_id")
     public Dish dishId;
-
-    @ManyToOne
-    @JoinColumn(name = "order_id")
     public Order orderId;
-
-    @Column(name = "quantity")
     public int quantity;
-
-    @Column(name = "comments")
     public String comments;
 
-    public  OrderDetails(){}
-    public OrderDetails(int orderDetailId, Dish dishId, Order orderId, int quantity, String comments) {
+    public NewODRequest() {
+    }
+
+    public NewODRequest(int orderDetailId, Dish dishId, Order orderId, int quantity, String comments) {
         this.orderDetailId = orderDetailId;
         this.dishId = dishId;
         this.orderId = orderId;
         this.quantity = quantity;
         this.comments = comments;
-    }
-
-    public OrderDetails(EditODRequest editODRequests){
-        this.orderDetailId = Integer.parseInt(editODRequests.orderDetailId);
-        this.dishId =  editODRequests.dishId;
-        this.orderId = editODRequests.orderId;
-        this.quantity = editODRequests.quantity;
-        this.comments = editODRequests.comments;
     }
 
     public int getOrderDetailId() {
@@ -88,10 +64,10 @@ public class OrderDetails {
 
     @Override
     public String toString() {
-        return "OrderDetails{" +
-                "orderDetailId=" + orderDetailId +
+        return "NewODRequest{" +
+                "orderDetailId='" + orderDetailId + '\'' +
                 ", dishId='" + dishId + '\'' +
-                ", orderId='" + orderId + '\'' +
+                ", orderId=" + orderId +
                 ", quantity=" + quantity +
                 ", comments='" + comments + '\'' +
                 '}';

@@ -1,6 +1,6 @@
 package com.revature.project_1.Users_Payment;
 
-import com.revature.project_1.Users_Payment.DTO.requests.EditUPRequests;
+import com.revature.project_1.Users_Payment.DTO.requests.EditUPRequest;
 import com.revature.project_1.Users_Payment.DTO.requests.NewUPRequest;
 import com.revature.project_1.Users_Payment.DTO.response.UPResponse;
 import com.revature.project_1.util.exceptions.InvalidUserInputException;
@@ -62,12 +62,12 @@ public class UserPaymentService  {
         if(userPayment.getCustomerUsername()==null ) {return false;}
         if(userPayment.getCcv()==0 ) {return false;}
         if(userPayment.getBalance()==0 ) {return false;}
-        if(userPayment.zipCode==0 ) {return false;}
+        if(userPayment.getZipCode()==0 ) {return false;}
 
         return true;
     }
 
-    public boolean update(EditUPRequests userPay) throws NumberFormatException{
+    public boolean update(EditUPRequest userPay) throws NumberFormatException{
         System.out.println(userPay.getId());
         Predicate<String> notNullorEmt= (str) -> str !=null && !str.trim().equals("");
         UserPayment foundpay =  upDao.findById(userPay.getId());

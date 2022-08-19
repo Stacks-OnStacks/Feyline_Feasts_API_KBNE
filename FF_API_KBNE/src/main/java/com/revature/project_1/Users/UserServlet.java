@@ -1,8 +1,8 @@
 package com.revature.project_1.Users;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.revature.project_1.Users.DTO.requests.EditUserRequests;
-import com.revature.project_1.Users.DTO.requests.NewRegistrationRequest;
+import com.revature.project_1.Users.DTO.requests.EditUserRequest;
+import com.revature.project_1.Users.DTO.requests.NewUserRequest;
 import com.revature.project_1.Users.DTO.response.UserResponse;
 import com.revature.project_1.util.exceptions.InvalidUserInputException;
 import com.revature.project_1.util.exceptions.ResourcePersistanceException;
@@ -11,7 +11,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -61,7 +60,7 @@ public class UserServlet extends HttpServlet implements Authable {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         PrintWriter respWriter = resp.getWriter();
-        NewRegistrationRequest user = objectMapper.readValue(req.getInputStream(), NewRegistrationRequest.class);
+        NewUserRequest user = objectMapper.readValue(req.getInputStream(), NewUserRequest.class);
 
 
         try{
@@ -86,7 +85,7 @@ public class UserServlet extends HttpServlet implements Authable {
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        EditUserRequests editUser= objectMapper.readValue(req.getInputStream(),EditUserRequests.class);
+        EditUserRequest editUser= objectMapper.readValue(req.getInputStream(), EditUserRequest.class);
 
 
         try {
@@ -104,7 +103,7 @@ public class UserServlet extends HttpServlet implements Authable {
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if(!checkAuth(req, resp)) return;
-        EditUserRequests editUser= objectMapper.readValue(req.getInputStream(),EditUserRequests.class);
+        EditUserRequest editUser= objectMapper.readValue(req.getInputStream(), EditUserRequest.class);
         String username = editUser.getId();
         System.out.println(username);
         if(username != null){

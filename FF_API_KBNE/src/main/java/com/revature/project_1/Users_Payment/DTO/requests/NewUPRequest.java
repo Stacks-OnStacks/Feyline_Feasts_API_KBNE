@@ -2,8 +2,6 @@ package com.revature.project_1.Users_Payment.DTO.requests;
 
 import com.revature.project_1.Users.User;
 
-import java.util.UUID;
-
 public class NewUPRequest {
 
 

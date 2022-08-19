@@ -2,7 +2,7 @@ package com.revature.project_1.Users.DTO.requests;
 
 import java.util.Date;
 
-public class NewRegistrationRequest{
+public class NewUserRequest {
 
 
     public String username;
@@ -13,8 +13,8 @@ public class NewRegistrationRequest{
     private boolean isAdmin;
 
 
-    public NewRegistrationRequest(){}
-    public NewRegistrationRequest(String username, String fname, String lname, String password, Date dob) {
+    public NewUserRequest(){}
+    public NewUserRequest(String username, String fname, String lname, String password, Date dob) {
 
         this.fname = fname;
         this.lname = lname;
@@ -23,7 +23,7 @@ public class NewRegistrationRequest{
         this.isAdmin=false;
     }
 
-    public NewRegistrationRequest(String username, String fname, String lname, String password, Date dob, boolean isAdmin) {
+    public NewUserRequest(String username, String fname, String lname, String password, Date dob, boolean isAdmin) {
 
         this.fname = fname;
         this.lname = lname;

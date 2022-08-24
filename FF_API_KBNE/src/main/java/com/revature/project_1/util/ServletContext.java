@@ -1,6 +1,9 @@
 package com.revature.project_1.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.revature.project_1.Order_Details.OrderDetailsDao;
+import com.revature.project_1.Order_Details.OrderDetailsService;
+import com.revature.project_1.Order_Details.OrderDetailsServlet;
 import com.revature.project_1.Users.UserDao;
 import com.revature.project_1.Users.UserService;
 import com.revature.project_1.Users.UserServlet;
@@ -38,8 +41,12 @@ public class ServletContext {
             // object setup
             UserDao userDao = new UserDao();
             UserPaymentDao paymentDao= new UserPaymentDao();
+            OrderDetailsDao odDao= new OrderDetailsDao();
+
             UserService userService = new UserService(userDao);
             UserPaymentService userPaymentService=new UserPaymentService(paymentDao);
+            OrderDetailsService orderDetailsService=new OrderDetailsService(odDao);
+
             ObjectMapper objectMapper = new ObjectMapper();
 
             // tomcat.setPort(3000); // Do not change port from 8080, leave default. This is just to show you can alter the ports. BEcause certain cloud providers sometimes change their ports. they use just 80 or 8080
@@ -51,8 +58,13 @@ public class ServletContext {
             tomcat.addServlet("", "UserPaymentServlet", new UserPaymentServlet(userPaymentService, objectMapper));
             standardContext.addServletMappingDecoded("/pay", "UserPaymentServlet");
 
+            tomcat.addServlet("", "OrderDetailServlet", new OrderDetailsServlet(orderDetailsService, objectMapper));
+            standardContext.addServletMappingDecoded("/orderdetail", "OrderDetailServlet");
+
             tomcat.addServlet("", "AuthServlet", new AuthServlet(userService, objectMapper));
             standardContext.addServletMappingDecoded("/auth", "AuthServlet");
+
+
 
 
             tomcat.start(); // there is a default port on your computer for testing, 8080 this is a "developers port"

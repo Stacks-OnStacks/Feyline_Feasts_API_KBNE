@@ -1,16 +1,14 @@
 package com.revature.project_1.Dish;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
-@Entity
+@Entity(name="dish")
 @Table(name="dish")
 public class Dish {
 
     @Id
-    public String dishId;
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    public int dishId;
 
     @Column(name = "dish_name")
     public String dishName;
@@ -35,9 +33,9 @@ public class Dish {
         this.isVegetarian = isVegetarian;
     }
 
-    public String getDishId () {return dishId;}
+    public int getDishId () {return dishId;}
 
-    public void setDishId ( String dishId){this.dishId = dishId;}
+    public void setDishId (int dishId){this.dishId = dishId;}
 
     public String getDishName () {return dishName;}
 
@@ -53,6 +51,16 @@ public class Dish {
 
     public boolean isVegetarian () {return isVegetarian;}
 
-    public void setVegetarian ( boolean vegetarian){isVegetarian = vegetarian;}
+    public void setVegetarian (boolean vegetarian){isVegetarian = vegetarian;}
 
+    @Override
+    public String toString() {
+        return "Dish{" +
+                "dishId=" + dishId +
+                ", dishName='" + dishName + '\'' +
+                ", cost=" + cost +
+                ", description='" + description + '\'' +
+                ", isVegetarian=" + isVegetarian +
+                '}';
+    }
 }

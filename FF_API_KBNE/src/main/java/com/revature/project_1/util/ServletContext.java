@@ -1,16 +1,29 @@
 package com.revature.project_1.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import com.revature.project_1.Order_Details.OrderDetailsDao;
 import com.revature.project_1.Order_Details.OrderDetailsService;
 import com.revature.project_1.Order_Details.OrderDetailsServlet;
+
+import com.revature.project_1.Orders.Order;
+import com.revature.project_1.Orders.OrderDao;
+import com.revature.project_1.Orders.OrderService;
+import com.revature.project_1.Orders.OrderServlet;
 import com.revature.project_1.Users.UserDao;
 import com.revature.project_1.Users.UserService;
 import com.revature.project_1.Users.UserServlet;
-import com.revature.project_1.Users_Payment.UserPayment;
+
 import com.revature.project_1.Users_Payment.UserPaymentDao;
 import com.revature.project_1.Users_Payment.UserPaymentService;
 import com.revature.project_1.Users_Payment.UserPaymentServlet;
+
+import com.revature.project_1.Dish.DishDao;
+import com.revature.project_1.Dish.DishService;
+import com.revature.project_1.Dish.DishServlet;
+
+
+
 import com.revature.project_1.util.web.AuthServlet;
 import org.apache.catalina.LifecycleException;
 import org.apache.catalina.WebResourceRoot;
@@ -40,20 +53,30 @@ public class ServletContext {
 
             // object setup
             UserDao userDao = new UserDao();
-            UserPaymentDao paymentDao= new UserPaymentDao();
-            OrderDetailsDao odDao= new OrderDetailsDao();
-
             UserService userService = new UserService(userDao);
+
+            UserPaymentDao paymentDao= new UserPaymentDao();
             UserPaymentService userPaymentService=new UserPaymentService(paymentDao);
+
+            OrderDetailsDao odDao= new OrderDetailsDao();
             OrderDetailsService orderDetailsService=new OrderDetailsService(odDao);
 
+            DishDao dishDao = new DishDao();
+            DishService dishService =new DishService(dishDao);
+
+           // OrderDao orderDao = new OrderDao();
+           // OrderService orderService =new OrderService(orderDao);
+
+
             ObjectMapper objectMapper = new ObjectMapper();
+
 
             // tomcat.setPort(3000); // Do not change port from 8080, leave default. This is just to show you can alter the ports. BEcause certain cloud providers sometimes change their ports. they use just 80 or 8080
 
 
             tomcat.addServlet("", "UserServlet", new UserServlet( userService, objectMapper));
             standardContext.addServletMappingDecoded("/user", "UserServlet");
+
 
             tomcat.addServlet("", "UserPaymentServlet", new UserPaymentServlet(userPaymentService, objectMapper));
             standardContext.addServletMappingDecoded("/pay", "UserPaymentServlet");
@@ -64,8 +87,11 @@ public class ServletContext {
             tomcat.addServlet("", "AuthServlet", new AuthServlet(userService, objectMapper));
             standardContext.addServletMappingDecoded("/auth", "AuthServlet");
 
+            tomcat.addServlet("", "DishServlet", new DishServlet(dishService, objectMapper));
+            standardContext.addServletMappingDecoded("/dish", "DishServlet");
 
-
+           // tomcat.addServlet("", "OrderServlet", new OrderServlet(orderService, objectMapper));
+           // standardContext.addServletMappingDecoded("/dish", "OrderServlet");
 
             tomcat.start(); // there is a default port on your computer for testing, 8080 this is a "developers port"
             tomcat.getServer().await();

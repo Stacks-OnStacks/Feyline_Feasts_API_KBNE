@@ -31,11 +31,12 @@ public class HibernateUtil {
             properties.load(new FileReader("src/main/resources/hibernate.properties"));
 
 
-            //configuration.addAnnotatedClass(Dish.class);
+            configuration.addAnnotatedClass(Dish.class);
             configuration.addAnnotatedClass(OrderDetails.class);
             //configuration.addAnnotatedClass(Order.class);
             configuration.addAnnotatedClass(User.class);
             configuration.addAnnotatedClass(UserPayment.class);
+
 
             // ServiceRegistry
             ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()

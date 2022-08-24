@@ -6,4 +6,6 @@ out/
 .idea
 .gitattributes
 target/
-src/main/resources/db.propertiess
+src/main/resources/db.properties
+src/main/resources/hibernate.properties
+src/main/resources/hibernate.cfg.xml

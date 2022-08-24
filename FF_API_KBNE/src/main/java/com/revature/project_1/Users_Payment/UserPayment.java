@@ -2,15 +2,14 @@ package com.revature.project_1.Users_Payment;
 
 public class UserPayment {
 
-    public long paymentId;
+    public String paymentId;
     public double balance;
     public String expDate;
     public int ccv;
     public int zipCode;
     public String customerUsername;
 
-    public UserPayment(long paymentId, double balance, String expDate, int ccv, int zipCode, String customerUsername) {
-        this.paymentId = paymentId;
+    public UserPayment( double balance, String expDate, int ccv, int zipCode, String customerUsername) {
         this.balance = balance;
         this.expDate = expDate;
         this.ccv = ccv;
@@ -18,11 +17,11 @@ public class UserPayment {
         this.customerUsername = customerUsername;
     }
 
-    public long getPaymentId() {
+    public String getPaymentId() {
         return paymentId;
     }
 
-    public void setPaymentId(long paymentId) {
+    public void setPaymentId(String paymentId) {
         this.paymentId = paymentId;
     }
 

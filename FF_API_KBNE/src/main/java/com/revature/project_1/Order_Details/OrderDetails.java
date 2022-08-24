@@ -1,14 +1,21 @@
 package com.revature.project_1.Order_Details;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="order_details")
 public class OrderDetails {
 
+    @Id
     public long orderDetailId;
-    public long dishId;
-    public long orderId;
+    public String dishId;
+    public String orderId;
     public int quantity;
     public String comments;
 
-    public OrderDetails(long orderDetailId, long dishId, long orderId, int quantity, String comments) {
+    public OrderDetails(long orderDetailId, String dishId, String orderId, int quantity, String comments) {
         this.orderDetailId = orderDetailId;
         this.dishId = dishId;
         this.orderId = orderId;
@@ -24,19 +31,19 @@ public class OrderDetails {
         this.orderDetailId = orderDetailId;
     }
 
-    public long getDishId() {
+    public String getDishId() {
         return dishId;
     }
 
-    public void setDishId(long dishId) {
+    public void setDishId(String dishId) {
         this.dishId = dishId;
     }
 
-    public long getOrderId() {
+    public String getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(long orderId) {
+    public void setOrderId(String orderId) {
         this.orderId = orderId;
     }
 

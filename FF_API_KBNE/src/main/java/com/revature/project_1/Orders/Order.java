@@ -1,20 +1,32 @@
 package com.revature.project_1.Orders;
 
+import javax.persistence.*;
 import java.util.Date;
 
+@Entity(name="order")
+@Table(name="order")
 public class Order {
 
-    public long orderId;
+    @Id
+    @GeneratedValue
+    public String orderId;
+
+    @Column(name = "amount")
     public int amount;
+    @Column(name = "order_date")
     public Date orderDate;
+    @Column(name = "order_address")
     public String orderAddress;
+    @Column(name = "order_zip")
     public int orderZip;
+    @Column(name = "customer_username")
     public String customerUsername;
     public long paymentId;
 
+    public Oder(){super();}
 
-    public Order(long orderId, int amount, Date orderDate, String orderAddress, int orderZip, String customerUsername, long paymentId) {
-        this.orderId = orderId;
+    public Order( int amount, Date orderDate, String orderAddress, int orderZip, String customerUsername, long paymentId) {
+
         this.amount = amount;
         this.orderDate = orderDate;
         this.orderAddress = orderAddress;
@@ -23,11 +35,11 @@ public class Order {
         this.paymentId = paymentId;
     }
 
-    public long getOrderId() {
+    public String getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(long orderId) {
+    public void setOrderId(String orderId) {
         this.orderId = orderId;
     }
 
@@ -78,4 +90,23 @@ public class Order {
     public void setPaymentId(long paymentId) {
         this.paymentId = paymentId;
     }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "amount=" + amount +
+                ", orderDate='" + orderDate +
+                ", orderAddress='" + orderAddress + '\'' +
+                ", orderZip=" + orderZip +
+                ", customerUsername='" + customerUsername + '\'' +
+                ", paymentId=" + paymentId +
+                '}';
+    }
 }
+
+// this.amount = amount;
+//         this.orderDate = orderDate;
+//         this.orderAddress = orderAddress;
+//         this.orderZip = orderZip;
+//         this.customerUsername = customerUsername;
+//         this.paymentId = paymentId;

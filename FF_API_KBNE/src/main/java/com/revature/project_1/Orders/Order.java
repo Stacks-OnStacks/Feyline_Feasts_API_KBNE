@@ -7,15 +7,11 @@ import java.util.Date;
 @Table(name="order")
 public class Order {
 
-<<<<<<< HEAD
-    public String orderId;
-=======
     @Id
     @GeneratedValue
     public String orderId;
 
     @Column(name = "amount")
->>>>>>> origin/ksidenew
     public int amount;
     @Column(name = "order_date")
     public Date orderDate;
@@ -31,11 +27,6 @@ public class Order {
 
     public Order( int amount, Date orderDate, String orderAddress, int orderZip, String customerUsername, long paymentId) {
 
-<<<<<<< HEAD
-    public Order( int amount, Date orderDate, String orderAddress, int orderZip, String customerUsername, long paymentId) {
-
-=======
->>>>>>> origin/ksidenew
         this.amount = amount;
         this.orderDate = orderDate;
         this.orderAddress = orderAddress;

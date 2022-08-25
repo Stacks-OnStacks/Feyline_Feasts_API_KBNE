@@ -1,5 +1,9 @@
 package com.revature.project_1.Orders;
 
+import com.revature.project_1.Orders.DTO.requests.NewOrderRequest;
+import com.revature.project_1.Users.User;
+import com.revature.project_1.Users_Payment.UserPayment;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -8,7 +12,7 @@ import java.util.Date;
 public class Order {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public String orderId;
 
     @Column(name = "amount")
@@ -19,13 +23,26 @@ public class Order {
     public String orderAddress;
     @Column(name = "order_zip")
     public int orderZip;
-    @Column(name = "customer_username")
-    public String customerUsername;
-    public long paymentId;
+    @ManyToOne
+    @JoinColumn(name = "username")
+    public User customerUsername;
 
-    public Oder(){super();}
+    @ManyToOne
+    @JoinColumn(name = "payment_id")
+    public UserPayment paymentId;
 
-    public Order( int amount, Date orderDate, String orderAddress, int orderZip, String customerUsername, long paymentId) {
+    public Order(){super();}
+
+    public Order(NewOrderRequest newOrder){
+        this.amount=newOrder.getAmount();
+        this.orderDate=newOrder.getOrderDate();
+        this.orderAddress=newOrder.getOrderAddress();
+        this.orderZip=newOrder.getOrderZip();
+        this.customerUsername=newOrder.getCustomerUsername();
+        this.paymentId=newOrder.getPaymentId();
+    }
+
+    public Order( int amount, Date orderDate, String orderAddress, int orderZip, User customerUsername, UserPayment paymentId) {
 
         this.amount = amount;
         this.orderDate = orderDate;
@@ -75,19 +92,19 @@ public class Order {
         this.orderZip = orderZip;
     }
 
-    public String getCustomerUsername() {
+    public User getCustomerUsername() {
         return customerUsername;
     }
 
-    public void setCustomerUsername(String customerUsername) {
+    public void setCustomerUsername(User customerUsername) {
         this.customerUsername = customerUsername;
     }
 
-    public long getPaymentId() {
+    public UserPayment getPaymentId() {
         return paymentId;
     }
 
-    public void setPaymentId(long paymentId) {
+    public void setPaymentId(UserPayment paymentId) {
         this.paymentId = paymentId;
     }
 
@@ -103,10 +120,3 @@ public class Order {
                 '}';
     }
 }
-
-// this.amount = amount;
-//         this.orderDate = orderDate;
-//         this.orderAddress = orderAddress;
-//         this.orderZip = orderZip;
-//         this.customerUsername = customerUsername;
-//         this.paymentId = paymentId;

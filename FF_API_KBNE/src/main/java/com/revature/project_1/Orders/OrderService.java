@@ -5,6 +5,9 @@ import com.revature.project_1.Dish.DTO.requests.NewDishIDRequest;
 import com.revature.project_1.Dish.DTO.response.DishResponse;
 import com.revature.project_1.Dish.Dish;
 import com.revature.project_1.Dish.DishDao;
+import com.revature.project_1.Orders.DTO.requests.EditOrderRequest;
+import com.revature.project_1.Orders.DTO.requests.NewOrderRequest;
+import com.revature.project_1.Orders.DTO.response.OrderResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -26,9 +29,9 @@ public class OrderService {
 
     public OrderResponse findByOrderID(String OrderId) {
 
-        Order order = orderDao.findByOrderId(OrderId);
+        Order order = orderDao.findById(OrderId);
         OrderResponse orderResponse = new OrderResponse(order);
-        return dishResponse;
+        return orderResponse;
     }
 
     public List<OrderResponse> readAll() {
@@ -40,37 +43,39 @@ public class OrderService {
         return orders;
     }
 
-    public OrderResponse registerOrder(NewOrderIDRequest newOrder) {
+    public OrderResponse registerOrder(NewOrderRequest newOrder) {
         Order requestOrder = new Order();
 
-        requestOrder.setOrderName(newOrder.getOrderName());
+        requestOrder.setAmount(newOrder.getAmount());
+        requestOrder.setOrderDate(newOrder.getOrderDate());
         requestOrder.setOrderAddress(newOrder.getOrderAddress());
         requestOrder.setOrderZip(newOrder.getOrderZip());
-        requestOrder.SetCustomerUsername(newOrder.getCustomerUsername());
+        requestOrder.setCustomerUsername(newOrder.getCustomerUsername());
         requestOrder.setPaymentId(newOrder.getPaymentId());
 
-//        if (!isDishAvailable("" + requestDish.getDishId())) {
-//            throw new InvalidUserInputException("Dish not available.");
-//        }
-        dishDao.create(requestDish);
-        return new DishResponse(requestDish);
+        orderDao.create(requestOrder);
+        return new OrderResponse(requestOrder);
 
     }
 
     public boolean update(EditOrderRequest editOrder) {
-        Order foundOrder= orderDao.findByOrderId(editOrder.getOrderId());
+        Order foundOrder= orderDao.findById(editOrder.getOrderId());
 
         Predicate<String> notNullorEmt= (str) -> str !=null&& str.trim().equals("");
 
-        if (notNullorEmt.test(editOrder.getOrderName())){
-            foundOrder.setOrderName(editOrder.getOrderName());
+        if ((editOrder.getAmount()!=0)){
+            foundOrder.setAmount(editOrder.getAmount());
         }
-        if (0!=(editOrder.getCost())){
-            foundOrder.setCost(editOrder.getCost());
+        if ((editOrder.getOrderDate()==null)){
+            foundOrder.setAmount(editOrder.getAmount());
         }
-        if (notNullorEmt.test(editOrder.getDescription())){
-            foundOrder.setDescription(editOrder.getDescription());
+        if (notNullorEmt.test(editOrder.getOrderAddress())){
+            foundOrder.setOrderAddress(editOrder.getOrderAddress());
         }
+        if ((editOrder.getOrderZip()!=0)){
+            foundOrder.setAmount(editOrder.getAmount());
+        }
+
         return orderDao.update(foundOrder);
 
     }
@@ -78,7 +83,6 @@ public class OrderService {
     public boolean remove(String order) {
         return orderDao.delete(order);
     }
-
 }
 
 // this.amount = amount;

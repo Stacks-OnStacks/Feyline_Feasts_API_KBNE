@@ -64,8 +64,8 @@ public class ServletContext {
             DishDao dishDao = new DishDao();
             DishService dishService =new DishService(dishDao);
 
-           // OrderDao orderDao = new OrderDao();
-           // OrderService orderService =new OrderService(orderDao);
+            OrderDao orderDao = new OrderDao();
+            OrderService orderService =new OrderService(orderDao);
 
 
             ObjectMapper objectMapper = new ObjectMapper();
@@ -90,8 +90,8 @@ public class ServletContext {
             tomcat.addServlet("", "DishServlet", new DishServlet(dishService, objectMapper));
             standardContext.addServletMappingDecoded("/dish", "DishServlet");
 
-           // tomcat.addServlet("", "OrderServlet", new OrderServlet(orderService, objectMapper));
-           // standardContext.addServletMappingDecoded("/dish", "OrderServlet");
+            tomcat.addServlet("", "OrderServlet", new OrderServlet(orderService, objectMapper));
+            standardContext.addServletMappingDecoded("/order", "OrderServlet");
 
             tomcat.start(); // there is a default port on your computer for testing, 8080 this is a "developers port"
             tomcat.getServer().await();

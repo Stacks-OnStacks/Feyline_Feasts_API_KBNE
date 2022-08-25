@@ -33,7 +33,7 @@ public class HibernateUtil {
 
             configuration.addAnnotatedClass(Dish.class);
             configuration.addAnnotatedClass(OrderDetails.class);
-            //configuration.addAnnotatedClass(Order.class);
+            configuration.addAnnotatedClass(Order.class);
             configuration.addAnnotatedClass(User.class);
             configuration.addAnnotatedClass(UserPayment.class);
 

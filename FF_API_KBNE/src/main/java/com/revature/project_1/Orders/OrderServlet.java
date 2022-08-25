@@ -35,6 +35,7 @@ public class OrderServlet extends HttpServlet  implements Authable {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        if (!checkAuth(req, resp))return;
 
         String id = req.getParameter("orderId");
 
@@ -52,11 +53,13 @@ public class OrderServlet extends HttpServlet  implements Authable {
             }
         }
         else {
-            List<OrderResponse> order = orderService.readAll();
+            if(checkAdmin(req, resp)) {
+                List<OrderResponse> order = orderService.readAll();
 
-            String payload = objectMapper.writeValueAsString(order);
+                String payload = objectMapper.writeValueAsString(order);
 
-            resp.getWriter().write(payload);
+                resp.getWriter().write(payload);
+            }
         }
 
     }

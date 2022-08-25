@@ -1,5 +1,8 @@
 package com.revature.project_1.Users_Payment;
 
+import com.revature.project_1.Order_Details.DTO.response.ODResponse;
+import com.revature.project_1.Orders.DTO.response.OrderResponse;
+import com.revature.project_1.Orders.OrderService;
 import com.revature.project_1.Users_Payment.DTO.requests.EditUPRequest;
 import com.revature.project_1.Users_Payment.DTO.requests.NewUPRequest;
 import com.revature.project_1.Users_Payment.DTO.response.UPResponse;
@@ -14,10 +17,14 @@ import java.util.stream.Collectors;
 public class UserPaymentService  {
 
     private final UserPaymentDao upDao;
+    private final OrderService orderService;
     private UserPayment sessionUP= null;
     private final Logger logger= LogManager.getLogger();
 
-    public UserPaymentService(UserPaymentDao upDao) {this.upDao = upDao;}
+    public UserPaymentService(UserPaymentDao upDao, OrderService orderService) {
+        this.upDao = upDao;
+        this.orderService = orderService;
+    }
 
     public UPResponse findByUPId(String paymentid) {
         UserPayment userPay=upDao.findById(paymentid);
@@ -67,10 +74,15 @@ public class UserPaymentService  {
         return true;
     }
 
-    public boolean update(EditUPRequest userPay) throws NumberFormatException{
+    public boolean update(EditUPRequest userPay, String username) throws NumberFormatException{
         System.out.println(userPay.getId());
         Predicate<String> notNullorEmt= (str) -> str !=null && !str.trim().equals("");
         UserPayment foundpay =  upDao.findById(userPay.getId());
+
+        System.out.println("*1*"+foundpay.getCustomerUsername().getUsername());
+        System.out.println("*2*"+username);
+
+        if(!foundpay.getCustomerUsername().getUsername().equals(username))return false;
 
 
         if(notNullorEmt.test(userPay.getExpDate())){
@@ -90,7 +102,58 @@ public class UserPaymentService  {
 
     }
 
-    public boolean remove(String userPay) {
+    public boolean update(EditUPRequest userPay, boolean admin) throws NumberFormatException{
+        System.out.println(userPay.getId());
+        Predicate<String> notNullorEmt= (str) -> str !=null && !str.trim().equals("");
+        UserPayment foundpay =  upDao.findById(userPay.getId());
+
+
+        if(!admin)return false;
+
+
+        if(notNullorEmt.test(userPay.getExpDate())){
+            foundpay.setExpDate(userPay.getExpDate());
+        }
+        if(userPay.getCcv()!=0){
+            foundpay.setCcv(userPay.getCcv());
+        }
+        if(userPay.getBalance()!=0){
+            foundpay.setBalance(userPay.getBalance());
+        }
+        if(userPay.getZipCode()!=0){
+            foundpay.setZipCode(userPay.getZipCode());
+        }
+        System.out.println(foundpay.toString());
+        return upDao.update(foundpay);
+
+    }
+
+    public boolean remove(String userPay,String username) {
+
+        UserPayment foundpay =  upDao.findById(userPay);
+        if(!foundpay.getCustomerUsername().getUsername().equals(username))return false;
+
+        List<OrderResponse> ods =orderService.findByUserPay(userPay);
+        if(!ods.isEmpty()) {
+            OrderResponse cur;
+            for (int i=0;i<ods.size();i++){
+                cur = ods.get(i);
+                orderService.remove(""+cur.getPaymentId().paymentId);
+            }
+        }
+
         return upDao.delete(userPay);
+    }
+
+    public boolean remove(String userPay,boolean username) {
+
+        UserPayment foundpay =  upDao.findById(userPay);
+        if(username)return false;
+
+        return upDao.delete(userPay);
+    }
+
+    public List<UserPayment> findByUsername(String username) {
+        return upDao.findByUsername(username);
     }
 }

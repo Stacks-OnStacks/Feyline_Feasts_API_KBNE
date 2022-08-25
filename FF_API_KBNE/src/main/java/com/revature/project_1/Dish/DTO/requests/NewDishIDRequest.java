@@ -1,8 +1,5 @@
 package com.revature.project_1.Dish.DTO.requests;
 
-import com.revature.project_1.Users.DTO.requests.EditUserRequests;
-
-
 public class NewDishIDRequest {
 
         public String dishId;

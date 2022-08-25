@@ -3,6 +3,9 @@ package com.revature.project_1.Users;
 import com.revature.project_1.Users.DTO.requests.EditUserRequest;
 import com.revature.project_1.Users.DTO.requests.NewUserRequest;
 import com.revature.project_1.Users.DTO.response.UserResponse;
+import com.revature.project_1.Users_Payment.UserPayment;
+import com.revature.project_1.Users_Payment.UserPaymentDao;
+import com.revature.project_1.Users_Payment.UserPaymentService;
 import com.revature.project_1.util.exceptions.InvalidUserInputException;
 import com.revature.project_1.util.exceptions.ResourcePersistanceException;
 import org.apache.logging.log4j.LogManager;
@@ -15,13 +18,15 @@ import java.util.stream.Collectors;
 public class UserService {
 
     private final UserDao userDao;
+    private final UserPaymentService paymentService;
     private User sessionUser= null;
     private final Logger logger= LogManager.getLogger();
 
 
 
-    public UserService(UserDao userDao) {
+    public UserService(UserDao userDao, UserPaymentService paymentService) {
         this.userDao = userDao;
+        this.paymentService =paymentService;
     }
 
 
@@ -106,6 +111,15 @@ public class UserService {
     }
 
     public boolean remove(String username) {
+        List<UserPayment> userPayments = paymentService.findByUsername(username);
+        if(!userPayments.isEmpty()) {
+            UserPayment cur;
+            for (int i=0;i<userPayments.size();i++){
+                cur = userPayments.get(i);
+                paymentService.remove(""+cur.paymentId,true);
+            }
+        }
+
         return userDao.delete(username);
     }
 }

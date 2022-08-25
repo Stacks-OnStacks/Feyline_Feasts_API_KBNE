@@ -59,6 +59,8 @@ public class DishServlet extends HttpServlet  implements Authable {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        if(!checkAuth(req,resp))return;
+        if(!checkAdmin(req,resp))return;
 
         PrintWriter respWriter =resp.getWriter();
         NewDishIDRequest dish= objectMapper.readValue(req.getInputStream(), NewDishIDRequest.class);
@@ -86,6 +88,9 @@ public class DishServlet extends HttpServlet  implements Authable {
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        if(!checkAuth(req,resp))return;
+        if(!checkAdmin(req,resp))return;
+
         EditDishRequest editDish = objectMapper.readValue(req.getInputStream(), EditDishRequest.class);
 
         try {
@@ -103,11 +108,13 @@ public class DishServlet extends HttpServlet  implements Authable {
     @Override
     protected void doDelete (HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
     {
-        if (!checkAuth(req, resp)) return;
-        String dishId = req.getParameter("username");
+        if(!checkAuth(req,resp))return;
+        if(!checkAdmin(req,resp))return;
+
+        String dishId = req.getParameter("dishId");
         if (dishId != null) {
             dishService.remove(dishId);
-            resp.getWriter().write("User with " + dishId + " has been deleted");
+            resp.getWriter().write("Dish with " + dishId + " has been deleted");
         } else {
             resp.getWriter().write("This request requires an email parameter in the path ?email=example@mail.com");
             resp.setStatus(400);

@@ -1,9 +1,11 @@
 package com.revature.project_1.Dish;
 
+import com.revature.project_1.Dish.DTO.response.DishResponse;
+
 import javax.persistence.*;
 
-@Entity(name="dish")
-@Table(name="dish")
+@Entity(name="dishes")
+@Table(name="dishes")
 public class Dish {
 
     @Id
@@ -31,6 +33,14 @@ public class Dish {
         this.cost = cost;
         this.description = description;
         this.isVegetarian = isVegetarian;
+    }
+
+    public Dish(DishResponse byDishID) {
+        this.dishId=byDishID.dishId;
+        this.dishName=byDishID.dishName;
+        this.description=byDishID.description;
+        this.cost=byDishID.cost;
+        this.isVegetarian=byDishID.isVegetarian;
     }
 
     public int getDishId () {return dishId;}

@@ -12,9 +12,11 @@ public class NewOrderRequest {
     public String orderAddress;
     public int orderZip;
     public User customerUsername;
-    public UserPayment paymentId;
+    public String paymentId;
 
-    public NewOrderRequest(int amount, Date orderDate, String orderAddress, int orderZip, User customerUsername, UserPayment paymentId) {
+
+    public  NewOrderRequest(){}
+    public NewOrderRequest(int amount, Date orderDate, String orderAddress, int orderZip, User customerUsername, String paymentId) {
         this.amount = amount;
         this.orderDate = orderDate;
         this.orderAddress = orderAddress;
@@ -63,11 +65,11 @@ public class NewOrderRequest {
         this.customerUsername = customerUsername;
     }
 
-    public UserPayment getPaymentId() {
+    public String getPaymentId() {
         return paymentId;
     }
 
-    public void setPaymentId(UserPayment paymentId) {
+    public void setPaymentId(String paymentId) {
         this.paymentId = paymentId;
     }
 }

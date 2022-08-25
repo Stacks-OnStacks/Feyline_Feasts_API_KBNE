@@ -32,7 +32,7 @@ public class OrderDetailsServlet extends HttpServlet implements Authable {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        String order_detail_id= req.getParameter("order_detail_id");
+        String order_detail_id= req.getParameter("orderDetailId");
 
         if(order_detail_id!=null){
             try{
@@ -48,6 +48,7 @@ public class OrderDetailsServlet extends HttpServlet implements Authable {
             }
         }
         else {
+            System.out.println("all");
             List<ODResponse> odResponses = odService.readAll();
             String payload = objectMapper.writeValueAsString(odResponses);
             resp.getWriter().write(payload);

@@ -48,11 +48,15 @@ public class UserServlet extends HttpServlet implements Authable {
             }
         }
         else {
-            List<UserResponse> users = userService.readAll();
+            if(checkAuth(req, resp)) {
+                if (checkAdmin(req, resp)){
+                    List<UserResponse> users = userService.readAll();
 
-            String payload = objectMapper.writeValueAsString(users);
+                    String payload = objectMapper.writeValueAsString(users);
 
-            resp.getWriter().write(payload);
+                    resp.getWriter().write(payload);
+                }
+            }
         }
     }
 
@@ -85,7 +89,13 @@ public class UserServlet extends HttpServlet implements Authable {
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        if(!checkAuth(req, resp)) return;
+        User authUser= (User) req.getSession().getAttribute("authUser");
+
         EditUserRequest editUser= objectMapper.readValue(req.getInputStream(), EditUserRequest.class);
+        if(!authUser.username.equals(editUser.getId())){
+            if(!checkAdmin(req, resp)){return;}
+        }
 
 
         try {
@@ -103,7 +113,14 @@ public class UserServlet extends HttpServlet implements Authable {
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if(!checkAuth(req, resp)) return;
+        User authUser= (User) req.getSession().getAttribute("authUser");
+
         EditUserRequest editUser= objectMapper.readValue(req.getInputStream(), EditUserRequest.class);
+
+        if(!authUser.username.equals(editUser.getId())){
+            if(!checkAdmin(req, resp)){return;}
+        }
+
         String username = editUser.getId();
         System.out.println(username);
         if(username != null){

@@ -7,10 +7,7 @@ import com.revature.project_1.util.interfaces.Crudable;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.query.Query;
-
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 
 //use UUID FOR IDS
@@ -38,7 +35,7 @@ public class DishDao implements Crudable<Dish> {
         try {
             Session session = HibernateUtil.getSession();
             Transaction transaction = session.beginTransaction();
-            List<Dish> dishes = session.createQuery("from dish").list();
+            List<Dish> dishes = session.createQuery("from dishes").list();
             transaction.commit();
             return dishes;
         } catch (HibernateException | IOException e) {
@@ -69,7 +66,7 @@ public class DishDao implements Crudable<Dish> {
         try {
             Session session = HibernateUtil.getSession();
             Transaction transaction = session.beginTransaction();
-            Dish dish = session.get(Dish.class, id);
+            Dish dish = session.get(Dish.class,Integer.parseInt(id));
             transaction.commit();
             return dish;
         } catch (HibernateException | IOException e) {
@@ -112,24 +109,4 @@ public class DishDao implements Crudable<Dish> {
             HibernateUtil.closeSession();
         }
     }
-
-
-//    public boolean isDishAvailable(String dish) {
-//        try {
-//            Session session = HibernateUtil.getSession();
-//            Transaction transaction = session.beginTransaction();
-//            Query query = session.createQuery("from Dish where DishId= :Dish");
-//            query.setParameter("dish", dish);
-//            Dish foundDish = (Dish) query.uniqueResult();
-//            transaction.commit();
-//            if(foundDish == null) return true;
-//            return false;
-//        } catch (HibernateException | IOException e) {
-//            e.printStackTrace();
-//            return false;
-//        } finally {
-//            HibernateUtil.closeSession();
-//        }
-//    }
-
 }

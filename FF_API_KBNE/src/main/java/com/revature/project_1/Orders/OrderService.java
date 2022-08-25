@@ -1,13 +1,11 @@
 package com.revature.project_1.Orders;
 
-import com.revature.project_1.Dish.DTO.requests.EditDishRequest;
-import com.revature.project_1.Dish.DTO.requests.NewDishIDRequest;
-import com.revature.project_1.Dish.DTO.response.DishResponse;
-import com.revature.project_1.Dish.Dish;
-import com.revature.project_1.Dish.DishDao;
+import com.revature.project_1.Order_Details.DTO.response.ODResponse;
+import com.revature.project_1.Order_Details.OrderDetailsService;
 import com.revature.project_1.Orders.DTO.requests.EditOrderRequest;
 import com.revature.project_1.Orders.DTO.requests.NewOrderRequest;
 import com.revature.project_1.Orders.DTO.response.OrderResponse;
+import com.revature.project_1.Users_Payment.UserPaymentDao;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -18,13 +16,16 @@ import java.util.stream.Collectors;
 public class OrderService {
 
     private final OrderDao orderDao;
-
-    private Order sessionUser = null;
+    private final OrderDetailsService orderDetailsService;
+    private final UserPaymentDao upDao;
 
     private final Logger logger = LogManager.getLogger();
 
-    public OrderService(OrderDao orderDao) {
+    public OrderService(OrderDao orderDao, OrderDetailsService orderDetailsService, UserPaymentDao upDao) {
+
         this.orderDao = orderDao;
+        this.orderDetailsService = orderDetailsService;
+        this.upDao = upDao;
     }
 
     public OrderResponse findByOrderID(String OrderId) {
@@ -51,9 +52,10 @@ public class OrderService {
         requestOrder.setOrderAddress(newOrder.getOrderAddress());
         requestOrder.setOrderZip(newOrder.getOrderZip());
         requestOrder.setCustomerUsername(newOrder.getCustomerUsername());
-        requestOrder.setPaymentId(newOrder.getPaymentId());
+        requestOrder.setPaymentId(upDao.findById(newOrder.getPaymentId()));
 
         orderDao.create(requestOrder);
+
         return new OrderResponse(requestOrder);
 
     }
@@ -81,13 +83,19 @@ public class OrderService {
     }
 
     public boolean remove(String order) {
+        List<ODResponse> ods =orderDetailsService.findByOrder(order);
+        if(!ods.isEmpty()) {
+            ODResponse cur;
+            for (int i=0;i<ods.size();i++){
+                cur = ods.get(i);
+                orderDetailsService.remove(""+cur.orderDetailId);
+            }
+        }
         return orderDao.delete(order);
+    }
+
+    public List<OrderResponse> findByUserPay(String userPay) {
+        return orderDao.findByUserPay(userPay);
     }
 }
 
-// this.amount = amount;
-//         this.orderDate = orderDate;
-//         this.orderAddress = orderAddress;
-//         this.orderZip = orderZip;
-//         this.customerUsername = customerUsername;
-//         this.paymentId = paymentId;

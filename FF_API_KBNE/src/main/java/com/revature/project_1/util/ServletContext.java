@@ -6,7 +6,6 @@ import com.revature.project_1.Order_Details.OrderDetailsDao;
 import com.revature.project_1.Order_Details.OrderDetailsService;
 import com.revature.project_1.Order_Details.OrderDetailsServlet;
 
-import com.revature.project_1.Orders.Order;
 import com.revature.project_1.Orders.OrderDao;
 import com.revature.project_1.Orders.OrderService;
 import com.revature.project_1.Orders.OrderServlet;
@@ -53,19 +52,18 @@ public class ServletContext {
 
             // object setup
             UserDao userDao = new UserDao();
-            UserService userService = new UserService(userDao);
-
             UserPaymentDao paymentDao= new UserPaymentDao();
-            UserPaymentService userPaymentService=new UserPaymentService(paymentDao);
-
             OrderDetailsDao odDao= new OrderDetailsDao();
-            OrderDetailsService orderDetailsService=new OrderDetailsService(odDao);
-
             DishDao dishDao = new DishDao();
-            DishService dishService =new DishService(dishDao);
-
             OrderDao orderDao = new OrderDao();
-            OrderService orderService =new OrderService(orderDao);
+
+            DishService dishService =new DishService(dishDao);
+            OrderDetailsService orderDetailsService=new OrderDetailsService(odDao,paymentDao,dishService);
+            OrderService orderService =new OrderService(orderDao,orderDetailsService,paymentDao);
+            UserPaymentService userPaymentService=new UserPaymentService(paymentDao,orderService);
+            UserService userService = new UserService(userDao,userPaymentService);
+
+            orderDetailsService.addOrderService(orderService);
 
 
             ObjectMapper objectMapper = new ObjectMapper();
@@ -76,7 +74,6 @@ public class ServletContext {
 
             tomcat.addServlet("", "UserServlet", new UserServlet( userService, objectMapper));
             standardContext.addServletMappingDecoded("/user", "UserServlet");
-
 
             tomcat.addServlet("", "UserPaymentServlet", new UserPaymentServlet(userPaymentService, objectMapper));
             standardContext.addServletMappingDecoded("/pay", "UserPaymentServlet");

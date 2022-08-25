@@ -9,7 +9,7 @@ import java.util.Date;
 public class OrderResponse {
 
 
-    public String orderId;
+    public int orderId;
     public int amount;
     public Date orderDate;
     public String orderAddress;
@@ -30,13 +30,69 @@ public class OrderResponse {
 
     }
 
-    public OrderResponse(String orderId, int amount, Date orderDate, String orderAddress, int orderZip, User customerUsername, UserPayment paymentId) {
+    public OrderResponse(int orderId, int amount, Date orderDate, String orderAddress, int orderZip, User customerUsername, UserPayment paymentId) {
         this.orderId = orderId;
         this.amount = amount;
         this.orderDate = orderDate;
         this.orderAddress = orderAddress;
         this.orderZip = orderZip;
         this.customerUsername = customerUsername;
+        this.paymentId = paymentId;
+    }
+
+    public int getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(int orderId) {
+        this.orderId = orderId;
+    }
+
+    public int getAmount() {
+        return amount;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
+
+    public Date getOrderDate() {
+        return orderDate;
+    }
+
+    public void setOrderDate(Date orderDate) {
+        this.orderDate = orderDate;
+    }
+
+    public String getOrderAddress() {
+        return orderAddress;
+    }
+
+    public void setOrderAddress(String orderAddress) {
+        this.orderAddress = orderAddress;
+    }
+
+    public int getOrderZip() {
+        return orderZip;
+    }
+
+    public void setOrderZip(int orderZip) {
+        this.orderZip = orderZip;
+    }
+
+    public User getCustomerUsername() {
+        return customerUsername;
+    }
+
+    public void setCustomerUsername(User customerUsername) {
+        this.customerUsername = customerUsername;
+    }
+
+    public UserPayment getPaymentId() {
+        return paymentId;
+    }
+
+    public void setPaymentId(UserPayment paymentId) {
         this.paymentId = paymentId;
     }
 }

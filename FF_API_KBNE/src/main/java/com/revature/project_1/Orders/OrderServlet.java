@@ -6,6 +6,7 @@ import com.revature.project_1.Dish.DTO.response.DishResponse;
 import com.revature.project_1.Orders.DTO.requests.EditOrderRequest;
 import com.revature.project_1.Orders.DTO.requests.NewOrderRequest;
 import com.revature.project_1.Orders.DTO.response.OrderResponse;
+import com.revature.project_1.Users.User;
 import com.revature.project_1.util.exceptions.InvalidUserInputException;
 import com.revature.project_1.util.exceptions.ResourcePersistanceException;
 import com.revature.project_1.util.interfaces.Authable;
@@ -63,9 +64,12 @@ public class OrderServlet extends HttpServlet  implements Authable {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        PrintWriter respWriter =resp.getWriter();
-        NewOrderRequest order= objectMapper.readValue(req.getInputStream(), NewOrderRequest.class);
+        if(!checkAuth(req,resp))return;
 
+        PrintWriter respWriter =resp.getWriter();
+
+        NewOrderRequest order= objectMapper.readValue(req.getInputStream(), NewOrderRequest.class);
+        order.setCustomerUsername((User) req.getSession().getAttribute("authUser"));
 
         try{
             logger.info("Order request to add the following to the database: {}", order);

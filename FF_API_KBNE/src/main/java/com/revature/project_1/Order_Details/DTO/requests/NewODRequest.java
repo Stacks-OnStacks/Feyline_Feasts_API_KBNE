@@ -6,15 +6,15 @@ import com.revature.project_1.Orders.Order;
 public class NewODRequest {
 
     public int orderDetailId;
-    public Dish dishId;
-    public Order orderId;
+    public int dishId;
+    public int orderId;
     public int quantity;
     public String comments;
 
     public NewODRequest() {
     }
 
-    public NewODRequest(int orderDetailId, Dish dishId, Order orderId, int quantity, String comments) {
+    public NewODRequest(int orderDetailId, int dishId, int orderId, int quantity, String comments) {
         this.orderDetailId = orderDetailId;
         this.dishId = dishId;
         this.orderId = orderId;
@@ -30,19 +30,19 @@ public class NewODRequest {
         this.orderDetailId = orderDetailId;
     }
 
-    public Dish getDishId() {
+    public int getDishId() {
         return dishId;
     }
 
-    public void setDishId(Dish dishId) {
+    public void setDishId(int dishId) {
         this.dishId = dishId;
     }
 
-    public Order getOrderId() {
+    public int getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(Order orderId) {
+    public void setOrderId(int orderId) {
         this.orderId = orderId;
     }
 

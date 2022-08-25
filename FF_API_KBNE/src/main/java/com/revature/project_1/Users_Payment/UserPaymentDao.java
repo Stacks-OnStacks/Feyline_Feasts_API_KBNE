@@ -5,6 +5,8 @@ import com.revature.project_1.util.interfaces.Crudable;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
+
 
 import java.io.IOException;
 import java.util.List;
@@ -26,12 +28,30 @@ public class UserPaymentDao implements Crudable<UserPayment> {
             HibernateUtil.closeSession();
         }
     }
+
+    public List<UserPayment> findByUsername(String username) {
+        try {
+            Session session = HibernateUtil.getSession();
+            Transaction transaction = session.beginTransaction();
+            String hql = "from userpayments where username = :username";
+            Query query = session.createQuery(hql);
+            query.setParameter("username",username);
+            List<UserPayment> userpays = query.list();
+            transaction.commit();
+            return userpays;
+        } catch (HibernateException | IOException e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            HibernateUtil.closeSession();
+        }
+    }
     @Override
     public List<UserPayment> findAll() {
         try {
             Session session = HibernateUtil.getSession();
             Transaction transaction = session.beginTransaction();
-            List<UserPayment> userpays = session.createQuery("from UserPayments").list();
+            List<UserPayment> userpays = session.createQuery("from userpayments").list();
             transaction.commit();
             return userpays;
         } catch (HibernateException | IOException e) {

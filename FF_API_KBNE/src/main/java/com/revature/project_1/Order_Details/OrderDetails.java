@@ -2,12 +2,13 @@ package com.revature.project_1.Order_Details;
 
 import com.revature.project_1.Dish.Dish;
 import com.revature.project_1.Order_Details.DTO.requests.EditODRequest;
+import com.revature.project_1.Order_Details.DTO.response.ODResponse;
 import com.revature.project_1.Orders.Order;
 
 import javax.persistence.*;
 
-@Entity
-@Table(name="order_details")
+@Entity(name="orderdetails")
+@Table(name="orderdetails")
 public class OrderDetails {
 
     @Id
@@ -44,6 +45,14 @@ public class OrderDetails {
         this.orderId = editODRequests.orderId;
         this.quantity = editODRequests.quantity;
         this.comments = editODRequests.comments;
+    }
+
+    public OrderDetails(ODResponse byId) {
+        this.orderDetailId = byId.orderDetailId;
+        this.dishId =  byId.dishId;
+        this.orderId = byId.orderId;
+        this.quantity = byId.quantity;
+        this.comments = byId.comments;
     }
 
     public int getOrderDetailId() {

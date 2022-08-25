@@ -4,6 +4,8 @@ public class LoginCreds {
     private String username;
     private String password;
 
+    private  boolean isAdbmin;
+
 
     public String getUsername() {
         return username;
@@ -19,5 +21,13 @@ public class LoginCreds {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public boolean isAdbmin() {
+        return isAdbmin;
+    }
+
+    public void setAdbmin(boolean adbmin) {
+        isAdbmin = adbmin;
     }
 }

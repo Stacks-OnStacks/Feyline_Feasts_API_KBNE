@@ -3,12 +3,6 @@ package com.revature.project_1.Dish;
 import com.revature.project_1.Dish.DTO.requests.EditDishRequest;
 import com.revature.project_1.Dish.DTO.requests.NewDishIDRequest;
 import com.revature.project_1.Dish.DTO.response.DishResponse;
-import com.revature.project_1.Users.DTO.requests.EditUserRequests;
-import com.revature.project_1.Users.DTO.requests.NewRegistrationRequest;
-import com.revature.project_1.Users.DTO.response.UserResponse;
-import com.revature.project_1.Users.User;
-import com.revature.project_1.util.exceptions.InvalidUserInputException;
-import com.revature.project_1.util.exceptions.ResourcePersistanceException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

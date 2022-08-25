@@ -1,10 +1,13 @@
 package com.revature.project_1.Order_Details;
 
+import com.revature.project_1.Order_Details.DTO.response.ODResponse;
+import com.revature.project_1.Orders.Order;
 import com.revature.project_1.util.HibernateUtil;
 import com.revature.project_1.util.interfaces.Crudable;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 import java.io.IOException;
 import java.util.List;
@@ -13,13 +16,13 @@ import java.util.List;
 public class OrderDetailsDao implements Crudable<OrderDetails> {
 
     @Override
-    public OrderDetails findById(String order_detail_id) {
+    public OrderDetails findById(String id) {
         try {
             Session session = HibernateUtil.getSession();
             Transaction transaction = session.beginTransaction();
-            OrderDetails orderDetails = session.get(OrderDetails.class, Integer.parseInt(order_detail_id));
+            OrderDetails order = session.get(OrderDetails.class, Integer.parseInt(id));
             transaction.commit();
-            return orderDetails;
+            return order;
         } catch (HibernateException | IOException e) {
             e.printStackTrace();
             return null;
@@ -32,7 +35,7 @@ public class OrderDetailsDao implements Crudable<OrderDetails> {
         try {
             Session session = HibernateUtil.getSession();
             Transaction transaction = session.beginTransaction();
-            List<OrderDetails> odResponses = session.createQuery("from order_details").list();
+            List<OrderDetails> odResponses = session.createQuery("from orderdetails").list();
             transaction.commit();
             return odResponses;
         } catch (HibernateException | IOException e) {
@@ -90,4 +93,22 @@ public class OrderDetailsDao implements Crudable<OrderDetails> {
         }
     }
 
+    public List<ODResponse> findByOrder(String orderId) {
+
+        try {
+            Session session = HibernateUtil.getSession();
+            Transaction transaction = session.beginTransaction();
+            String hql = "from orderdetails where orderId = :orderId";
+            Query query = session.createQuery(hql);
+            query.setParameter("orderId",orderId);
+            List<ODResponse> odResponses = query.list();
+            transaction.commit();
+            return odResponses;
+        } catch (HibernateException | IOException e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            HibernateUtil.closeSession();
+        }
+    }
 }

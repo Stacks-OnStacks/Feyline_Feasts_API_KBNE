@@ -1,9 +1,14 @@
 package com.revature.project_1.Order_Details;
 
 
+import com.revature.project_1.Dish.Dish;
+import com.revature.project_1.Dish.DishService;
 import com.revature.project_1.Order_Details.DTO.requests.EditODRequest;
 import com.revature.project_1.Order_Details.DTO.requests.NewODRequest;
 import com.revature.project_1.Order_Details.DTO.response.ODResponse;
+import com.revature.project_1.Orders.Order;
+import com.revature.project_1.Orders.OrderService;
+import com.revature.project_1.Users_Payment.UserPaymentDao;
 import com.revature.project_1.util.exceptions.InvalidUserInputException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -15,10 +20,16 @@ import java.util.stream.Collectors;
 public class OrderDetailsService  {
 
     private final OrderDetailsDao odDao;
-    private OrderDetails orderDetails= null;
+    private final UserPaymentDao upDao;
+    private final DishService dishService;
+    private OrderService orderService;
+
     private final Logger logger= LogManager.getLogger();
 
-    public OrderDetailsService(OrderDetailsDao odDao) {this.odDao = odDao;}
+    public OrderDetailsService(OrderDetailsDao odDao, UserPaymentDao paymentDao, DishService dishService) {this.odDao = odDao;
+        this.upDao=paymentDao;
+        this.dishService=dishService;
+    }
 
 
 
@@ -41,20 +52,21 @@ public class OrderDetailsService  {
 
         OrderDetails details= new OrderDetails();
 
+        Dish wantDish=new Dish(dishService.findByDishID(""+newOD.getDishId()));
+        Order wantOrder=new Order(orderService.findByOrderID(""+newOD.getOrderId()));
 
-        details.setOrderDetailId(newOD.getOrderDetailId());
-        details.setDishId(newOD.getDishId());
-        details.setOrderId(newOD.getOrderId());
+        details.setDishId(wantDish);
+        details.setOrderId(wantOrder);
         details.setComments(newOD.getComments());
         details.setQuantity(newOD.getQuantity());
 
 
         logger.info("User registration service has begun with the provide: {}", details);
-        if(!isPayValid(details)){
-            throw new InvalidUserInputException("user input was invalid");
-        }
+
 
         odDao.create(details);
+        details.getOrderId().getPaymentId().setBalance(details.getOrderId().getPaymentId().getBalance()-details.getOrderId().getAmount()*details.getDishId().getCost());
+        upDao.update(details.getOrderId().getPaymentId());
 
         return new ODResponse(details);
 
@@ -73,24 +85,42 @@ public class OrderDetailsService  {
     }
 
     public boolean update(EditODRequest editODRequest) {
-
-        System.out.println(editODRequest.getId());
+        System.out.println("*******************");
+        System.out.println("+"+editODRequest.getOrderDetailId()+"+");
+        System.out.println("*******************");
         Predicate<String> notNullorEmt= (str) -> str !=null && !str.trim().equals("");
-        OrderDetails details =  odDao.findById(editODRequest.getId());
+        OrderDetails details =  odDao.findById(editODRequest.getOrderDetailId().trim());
+        double old=0;
 
 
         if(notNullorEmt.test(editODRequest.getComments())){
             details.setComments(editODRequest.getComments());
         }
         if(editODRequest.getQuantity()!=0){
+            old=details.getQuantity();
             details.setQuantity(editODRequest.getQuantity());
         }
         System.out.println(details.toString());
+        if(old!=0){
+            details.getOrderId().getPaymentId().setBalance(details.getOrderId().getPaymentId().getBalance()-
+                    (details.getOrderId().getAmount()*details.getDishId().getCost()*(old-details.getQuantity())));
+            upDao.update(details.getOrderId().getPaymentId());
+
+        }
+
         return odDao.update(details);
 
     }
 
-    public boolean remove(String id) {return odDao.delete(id);
+    public boolean remove(String id) {
+        return odDao.delete(id);
+    }
 
+    public List<ODResponse> findByOrder(String order) {
+        return odDao.findByOrder(order);
+    }
+
+    public void addOrderService(OrderService orderService) {
+        this.orderService=orderService;
     }
 }

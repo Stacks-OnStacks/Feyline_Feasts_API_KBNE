@@ -5,8 +5,8 @@ import com.revature.project_1.Users_Payment.DTO.requests.EditUPRequest;
 
 import javax.persistence.*;
 
-@Entity(name = "UserPayments")
-@Table(name = "UserPayments")
+@Entity(name = "userpayments")
+@Table(name = "userpayments")
 public class UserPayment {
 
     @Id

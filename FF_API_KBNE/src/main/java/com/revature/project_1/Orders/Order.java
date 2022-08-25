@@ -1,19 +1,20 @@
 package com.revature.project_1.Orders;
 
 import com.revature.project_1.Orders.DTO.requests.NewOrderRequest;
+import com.revature.project_1.Orders.DTO.response.OrderResponse;
 import com.revature.project_1.Users.User;
 import com.revature.project_1.Users_Payment.UserPayment;
 
 import javax.persistence.*;
 import java.util.Date;
 
-@Entity(name="order")
-@Table(name="order")
+@Entity(name="orders")
+@Table(name="orders")
 public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public String orderId;
+    public int orderId;
 
     @Column(name = "amount")
     public int amount;
@@ -33,14 +34,7 @@ public class Order {
 
     public Order(){super();}
 
-    public Order(NewOrderRequest newOrder){
-        this.amount=newOrder.getAmount();
-        this.orderDate=newOrder.getOrderDate();
-        this.orderAddress=newOrder.getOrderAddress();
-        this.orderZip=newOrder.getOrderZip();
-        this.customerUsername=newOrder.getCustomerUsername();
-        this.paymentId=newOrder.getPaymentId();
-    }
+
 
     public Order( int amount, Date orderDate, String orderAddress, int orderZip, User customerUsername, UserPayment paymentId) {
 
@@ -52,11 +46,22 @@ public class Order {
         this.paymentId = paymentId;
     }
 
-    public String getOrderId() {
+    public Order(OrderResponse byOrderID) {
+        this.orderId=byOrderID.getOrderId();
+        this.amount = byOrderID.amount;
+        this.orderDate = byOrderID.orderDate;
+        this.orderAddress = byOrderID.orderAddress;
+        this.orderZip = byOrderID.orderZip;
+        this.customerUsername = byOrderID.customerUsername;
+        this.paymentId = byOrderID.paymentId;
+
+    }
+
+    public int getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(String orderId) {
+    public void setOrderId(int orderId) {
         this.orderId = orderId;
     }
 

@@ -32,7 +32,7 @@ public class UserPaymentServlet extends HttpServlet implements Authable {
 
 
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+        if(!checkAuth(req, resp))return;
         String paymentid= req.getParameter("paymentid");
 
         if(paymentid!=null){
@@ -49,9 +49,11 @@ public class UserPaymentServlet extends HttpServlet implements Authable {
             }
         }
         else {
-            List<UPResponse> users = uPService.readAll();
-            String payload = objectMapper.writeValueAsString(users);
-            resp.getWriter().write(payload);
+            if (checkAdmin(req,resp)) {
+                List<UPResponse> users = uPService.readAll();
+                String payload = objectMapper.writeValueAsString(users);
+                resp.getWriter().write(payload);
+            }
         }
     }
 
@@ -91,10 +93,21 @@ public class UserPaymentServlet extends HttpServlet implements Authable {
 
         if(!checkAuth(req, resp)) return;
         EditUPRequest userPay = objectMapper.readValue(req.getInputStream(), EditUPRequest.class);
+        User authUser= (User) req.getSession().getAttribute("authUser");
 
         try {
-            uPService.update(userPay);
+            if(uPService.update(userPay,authUser.getUsername())){
             resp.getWriter().write("User update successful");
+            }else
+            {
+                if(uPService.update(userPay,checkAdmin(req, resp))) {
+                    resp.getWriter().write("User update successful");
+
+                }
+                else {
+                    resp.getWriter().write("Login mismatch");
+                }
+            }
         }catch (InvalidUserInputException e){
             resp.getWriter().write(e.getMessage());
             resp.setStatus(404);
@@ -115,11 +128,16 @@ public class UserPaymentServlet extends HttpServlet implements Authable {
         if(!checkAuth(req, resp)) return;
         EditUPRequest editUser= objectMapper.readValue(req.getInputStream(), EditUPRequest.class);
 
+        User authUser= (User) req.getSession().getAttribute("authUser");
+
         String userPay = editUser.getId();
         System.out.println(editUser.getId());
         if(userPay != null){
-            uPService.remove(userPay);
-            resp.getWriter().write("User with " + userPay + " has been deleted");
+            if(uPService.remove(userPay,authUser.getUsername())) {
+                resp.getWriter().write("User with " + userPay + " has been deleted");
+            }else if (uPService.remove(userPay,checkAdmin(req, resp))){
+                resp.getWriter().write("User with " + userPay + " has been deleted");
+            }
         } else {
             resp.getWriter().write("This request requires an Id parameter in the path ?ID=number");
             resp.setStatus(400);
